@@ -1,6 +1,6 @@
 import {getRandomInteger, getRandomDecimal, getRandomArrayElement, getRandomArray} from './util.js';
 
-const SIMILAR_ADVERTISEMENT_COUNT = 10;
+const SIMILAR_ADVERTISEMENT_COUNT = 1;
 const TITLE = ['Шикарное жилище на берегу моря', 'Царские апартаменты по смешной стоимости', 'Недорогое жильё для прекрасного отдыха'];
 const TYPE = ['palace', 'flat', 'house', 'bungalow'];
 const CHECK_TIME = ['12:00', '13:00', '14:00'];
@@ -11,11 +11,11 @@ const PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0
 const createAdvertisement = () => {
   return {
     author: {
-      avatar: 'img/avatars/user0' + getRandomInteger(1, 8) + '.png',
+      avatar: `img/avatars/user0${getRandomInteger(1, 8)}.png`,
     },
     offer: {
       title: getRandomArrayElement(TITLE),
-      address: getRandomDecimal(-180, 180) + ', ' + getRandomDecimal(-180, 180),
+      address: `${getRandomDecimal(-180, 180)}, ${getRandomDecimal(-180, 180)}`,
       price: getRandomInteger(500, 100000),
       type: getRandomArrayElement(TYPE),
       rooms: getRandomInteger(1, 5),
@@ -35,4 +35,5 @@ const createAdvertisement = () => {
 
 const createSimilarAdvertisements = () => new Array(SIMILAR_ADVERTISEMENT_COUNT).fill(null).map(() => createAdvertisement());
 
+export {TYPE};
 export {createSimilarAdvertisements};
