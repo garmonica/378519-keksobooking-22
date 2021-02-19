@@ -1,47 +1,45 @@
-import {TYPE as TYPE_DATA} from './data.js';
-import {createSimilarAdvertisements} from './data.js';
+import {createSimilarAds} from './data.js';
 
-const TYPE = ['Дворец', 'Квартира', 'Дом', 'Бунгало'];
+const apartmentType = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalow: 'Бунгало',
+}
+
 const mapCanvas = document.querySelector('.map__canvas');
-const similarAdvertisementTemplate = document.querySelector('#card').content.querySelector('.popup');
-const similarAdvertisementsFragment = document.createDocumentFragment();
-const similarAdvertisements = createSimilarAdvertisements();
+const adTemplate = document.querySelector('#card').content.querySelector('.popup');
+const similarAds = createSimilarAds();
 
-similarAdvertisements.forEach(({author, offer}) => {
-  const advertisementItem = similarAdvertisementTemplate.cloneNode(true);
-  const featuresBlock = advertisementItem.querySelector('.popup__features');
-  const feature = advertisementItem.querySelectorAll('.popup__feature');
-  const photosBlock = advertisementItem.querySelector('.popup__photos');
-  const photoTemplate = advertisementItem.querySelector('.popup__photo');
-  const photosFragment = document.createDocumentFragment();
-  advertisementItem.querySelector('.popup__avatar').src = author.avatar;
-  advertisementItem.querySelector('.popup__title').textContent = offer.title;
-  advertisementItem.querySelector('.popup__text--address').textContent = offer.address;
-  advertisementItem.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
-  TYPE_DATA.forEach((elem, i) => {
-    if (elem.includes(offer.type)) {
-      advertisementItem.querySelector('.popup__type').textContent = TYPE[i];
-    }
-  });
-  advertisementItem.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
-  advertisementItem.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
-  if (offer.features.length === 0) {
-    featuresBlock.innerHTML = '';
-  }
-  offer.features.forEach((elem, i) => {
-    if (!feature[i].classList.contains(elem)) {
-      featuresBlock.removeChild(feature[i]);
-    }
-  });
-  advertisementItem.querySelector('.popup__description').textContent = offer.description;
-  photosBlock.innerHTML = '';
-  offer.photos.forEach((elem) => {
-    const newPhoto = photoTemplate.cloneNode(true);
-    newPhoto.src = elem;
-    photosFragment.appendChild(newPhoto);
-  });
-  photosBlock.appendChild(photosFragment);
-  similarAdvertisementsFragment.appendChild(advertisementItem);
-});
+const getFeatures = (features) => {
+  const featureList = features.map((feature) => `<li class="popup__feature popup__feature--${feature}"></li>`);
+  return featureList.join('');
+}
 
-mapCanvas.appendChild(similarAdvertisementsFragment);
+const getPhotos = (photos) => {
+  const photoList = photos.map((photo) => `<img src="${photo}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`);
+  return photoList.join('');
+}
+
+const getAdTemplate = (cardData) => {
+  const adItem = adTemplate.cloneNode(true);
+  adItem.querySelector('.popup__avatar').src = cardData.author.avatar;
+  adItem.querySelector('.popup__title').textContent = cardData.offer.title;
+  adItem.querySelector('.popup__text--address').textContent = cardData.offer.address;
+  adItem.querySelector('.popup__text--price').textContent = `${cardData.offer.price} ₽/ночь`;
+  adItem.querySelector('.popup__type').textContent = apartmentType[cardData.offer.type];
+  adItem.querySelector('.popup__text--capacity').textContent = `${cardData.offer.rooms} комнаты для ${cardData.offer.guests} гостей`;
+  adItem.querySelector('.popup__text--time').textContent = `Заезд после ${cardData.offer.checkin}, выезд до ${cardData.offer.checkout}`;
+  adItem.querySelector('.popup__features').innerHTML = getFeatures(cardData.offer.features);
+  adItem.querySelector('.popup__description').textContent = cardData.offer.description;
+  adItem.querySelector('.popup__photos').innerHTML = getPhotos(cardData.offer.photos);
+  return adItem;
+}
+
+const renderAdTemplate = (data) => {
+  const similarAdsFragment = document.createDocumentFragment();
+  similarAdsFragment.appendChild(getAdTemplate(data[0]));
+  mapCanvas.appendChild(similarAdsFragment);
+}
+
+renderAdTemplate(similarAds);
