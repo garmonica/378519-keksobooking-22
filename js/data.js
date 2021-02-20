@@ -8,14 +8,14 @@ const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'condit
 const DESCRIPTION = ['Чисто и уютно, уборка раз в два дня, холодильник, душ, всё есть', 'Жильё прямо в центре города, недалеко от основных достопримечательностей города', 'В пяти шагах от метро, все удобства'];
 const PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
-const createAdvertisement = () => {
+const createAd = () => {
   return {
     author: {
-      avatar: 'img/avatars/user0' + getRandomInteger(1, 8) + '.png',
+      avatar: `img/avatars/user0${getRandomInteger(1, 8)}.png`,
     },
     offer: {
       title: getRandomArrayElement(TITLE),
-      address: getRandomDecimal(-180, 180) + ', ' + getRandomDecimal(-180, 180),
+      address: `${getRandomDecimal(-180, 180)}, ${getRandomDecimal(-180, 180)}`,
       price: getRandomInteger(500, 100000),
       type: getRandomArrayElement(TYPE),
       rooms: getRandomInteger(1, 5),
@@ -33,6 +33,6 @@ const createAdvertisement = () => {
   };
 };
 
-const createSimilarAdvertisements = () => new Array(SIMILAR_ADVERTISEMENT_COUNT).fill(null).map(() => createAdvertisement());
+const createSimilarAds = () => new Array(SIMILAR_ADVERTISEMENT_COUNT).fill(null).map(() => createAd());
 
-export {createSimilarAdvertisements};
+export {createSimilarAds};
