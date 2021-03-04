@@ -9,13 +9,15 @@ const DESCRIPTION = ['Чисто и уютно, уборка раз в два д
 const PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
 const createAd = () => {
+  const x = getRandomDecimal(35.65000, 35.70000);
+  const y = getRandomDecimal(139.7000, 139.80000);
   return {
     author: {
       avatar: `img/avatars/user0${getRandomInteger(1, 8)}.png`,
     },
     offer: {
       title: getRandomArrayElement(TITLE),
-      address: `${getRandomDecimal(-180, 180)}, ${getRandomDecimal(-180, 180)}`,
+      address: `${x}, ${y}`,
       price: getRandomInteger(500, 100000),
       type: getRandomArrayElement(TYPE),
       rooms: getRandomInteger(1, 5),
@@ -27,8 +29,8 @@ const createAd = () => {
       photos: getRandomArray(PHOTOS),
     },
     location: {
-      x: getRandomDecimal(35.65000, 35.70000),
-      y: getRandomDecimal(139.7000, 139.80000),
+      x: x,
+      y: y,
     },
   };
 };

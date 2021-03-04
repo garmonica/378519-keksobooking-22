@@ -4,8 +4,8 @@ const getRandomInteger = (minNumber, maxNumber) => {
 };
 
 const getRandomDecimal = (minNumber, maxNumber, decimalSymbols = 5) => {
-  const randomDecimal = (Math.random() * (maxNumber - minNumber) + minNumber).toFixed(decimalSymbols);
-  return Math.abs(randomDecimal);
+  const randomDecimal = (Math.random() * (maxNumber - minNumber) + minNumber);
+  return Math.abs(randomDecimal).toFixed(decimalSymbols);
 };
 
 const getRandomArrayElement = (elements) => {
