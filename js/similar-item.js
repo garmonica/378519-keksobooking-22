@@ -1,5 +1,3 @@
-import {createSimilarAds} from './data.js';
-
 const apartmentType = {
   palace: 'Дворец',
   flat: 'Квартира',
@@ -7,9 +5,7 @@ const apartmentType = {
   bungalow: 'Бунгало',
 }
 
-const mapCanvas = document.querySelector('.map__canvas');
 const adTemplate = document.querySelector('#card').content.querySelector('.popup');
-const similarAds = createSimilarAds();
 
 const getAdTemplate = ({author, offer}) => {
   const adItem = adTemplate.cloneNode(true);
@@ -30,10 +26,4 @@ const getAdTemplate = ({author, offer}) => {
   return adItem;
 }
 
-const renderAdTemplate = (data) => {
-  const similarAdsFragment = document.createDocumentFragment();
-  similarAdsFragment.appendChild(getAdTemplate(data[0]));
-  mapCanvas.appendChild(similarAdsFragment);
-}
-
-renderAdTemplate(similarAds);
+export {getAdTemplate};
