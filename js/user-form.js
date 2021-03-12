@@ -1,12 +1,12 @@
 import {sendData} from './api.js';
 import {mainMarker} from './map.js';
+import {showMessage, error, success} from './status-message.js';
 
 const CITY_CENTER = {
   lat: 35.85000,
   lng: 139.75000,
 };
 
-const main = document.querySelector('main');
 const adForm = document.querySelector('.ad-form');
 const adFormFieldsets = adForm.querySelectorAll('fieldset');
 const mapFilter = document.querySelector('.map__filters');
@@ -42,45 +42,6 @@ const initPage = () => {
   address.setAttribute('readonly', 'readonly');
 }
 
-// отрисовка-открытие блока с сообщением об ошибке
-const errorTemplate = document.querySelector('#error').content.querySelector('.error');
-const showErrorMessage = () => {
-  const error = errorTemplate.cloneNode(true);
-  const errorButton = error.querySelector('.error__button');
-  error.style.zIndex = 1100;
-  main.appendChild(error);
-  // ЗАКРЫТИЕ СООБЩЕНИЯ: в этой части запуталась как делать.
-  // работает, но появляются ошибки при Esc и нажатии на кнопку:
-  error.addEventListener('click', (evt) => {
-    main.removeChild(evt.target);
-  });
-  errorButton.addEventListener('click', () => {
-    main.removeChild(error);
-  });
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape' || evt.key === 'Esc') {
-      main.removeChild(error);
-    }
-  });
-}
-
-// отрисовка-открытие блока с сообщением об успехе
-const successTemplate = document.querySelector('#success').content.querySelector('.success');
-const showSuccessMessage = () => {
-  const success = successTemplate.cloneNode(true);
-  success.style.zIndex = 1100;
-  main.appendChild(success);
-  success.addEventListener('click', (evt) => {
-    main.removeChild(evt.target);
-  });
-  // Тут также, ошибки:
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape' || evt.key === 'Esc') {
-      main.removeChild(success);
-    }
-  });
-}
-
 // сброс формы
 const resetForm = (form) => {
   mainMarker.setLatLng([CITY_CENTER.lat, CITY_CENTER.lng]);
@@ -102,11 +63,11 @@ const setUserFormSubmit = () => {
     evt.preventDefault();
     sendData(
       () => {
-        showSuccessMessage();
+        showMessage(success);
         resetForm(adForm);
         resetForm(mapFilter);
       },
-      () => showErrorMessage(),
+      () => showMessage(error),
       new FormData(evt.target),
     );
   });

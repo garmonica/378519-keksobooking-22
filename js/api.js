@@ -1,17 +1,15 @@
-import {showAlert} from './util.js';
-
-const getData = (onSuccess) => {
+const getData = (onSuccess, onFail) => {
   fetch('https://22.javascript.pages.academy/keksobooking/data')
     .then((response) => {
       if (response.ok) {
         return response.json();
       } else {
-        showAlert('Ошибка загрузки данных!');
+        onFail();
       }
     })
     .then((ads) => onSuccess(ads))
     .catch(() => {
-      showAlert('Ошибка загрузки данных!');
+      onFail();
     });
 };
 

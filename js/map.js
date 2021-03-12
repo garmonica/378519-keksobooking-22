@@ -1,10 +1,8 @@
 /* global L:readonly */
-// import {createSimilarAds} from './data.js';
-// const similarAds = createSimilarAds();
-// import {showAlert} from './util.js';
 import {getAdTemplate} from './ad-item.js';
 import {getData} from './api.js';
 import {CITY_CENTER, initPage, address} from './user-form.js';
+import {showAlert} from './util.js';
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -50,27 +48,30 @@ mainMarker.on('moveend', (evt) => {
   address.value = `${coordinates.lat.toFixed(5)}, ${coordinates.lng.toFixed(5)}`;
 });
 
-getData((ads) => {
-  ads.forEach((point) => {
-    const {location} = point;
-    const marker = L.marker(
-      {
-        lat: location.lat,
-        lng: location.lng,
-      },
-      {
-        icon: markerIcon,
-      },
-    );
-    marker
-      .addTo(map)
-      .bindPopup(
-        getAdTemplate(point),
+getData(
+  (ads) => {
+    ads.forEach((point) => {
+      const {location} = point;
+      const marker = L.marker(
         {
-          keepInView: true,
+          lat: location.lat,
+          lng: location.lng,
+        },
+        {
+          icon: markerIcon,
         },
       );
-  });
-});
+      marker
+        .addTo(map)
+        .bindPopup(
+          getAdTemplate(point),
+          {
+            keepInView: true,
+          },
+        );
+    });
+  },
+  () => showAlert('Ошибка загрузки данных!'),
+);
 
 export {mainMarker};

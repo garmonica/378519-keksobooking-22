@@ -26,18 +26,15 @@ const getRandomArray = (arr) => {
 const showAlert = (message) => {
   const mapBlock = document.querySelector('.map');
   const alertContainer = document.createElement('div');
-  alertContainer.style.zIndex = 900;
-  alertContainer.style.position = 'absolute';
-  alertContainer.style.left = 0;
-  alertContainer.style.top = 0;
-  alertContainer.style.right = 0;
-  alertContainer.style.padding = '10px 3px';
-  alertContainer.style.fontSize = '18px';
-  alertContainer.style.textAlign = 'center';
-  alertContainer.style.backgroundColor = '#ff6d51';
-  alertContainer.style.color = '#353535';
+  alertContainer.classList.add('alert-message');
   alertContainer.textContent = message;
   mapBlock.append(alertContainer);
 }
 
-export {getRandomInteger, getRandomDecimal, getRandomArrayElement, getRandomArray, showAlert};
+const isEsc = (evt, cb) => {
+  if (evt.key === 'Escape' || evt.key === 'Esc') {
+    cb;
+  }
+}
+
+export {getRandomInteger, getRandomDecimal, getRandomArrayElement, getRandomArray, showAlert, isEsc};
