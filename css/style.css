@@ -1026,3 +1026,16 @@ fieldset {
 .hidden {
   display: none;
 }
+
+.alert-message {
+  padding: 10px 3px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  font-size: 18px;
+  text-align: center;
+  background-color: #ff6d51;
+  color: #353535;
+  z-index: 900;
+}

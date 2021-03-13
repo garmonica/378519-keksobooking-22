@@ -23,4 +23,18 @@ const getRandomArray = (arr) => {
   return result;
 };
 
-export {getRandomInteger, getRandomDecimal, getRandomArrayElement, getRandomArray};
+const showAlert = (message) => {
+  const mapBlock = document.querySelector('.map');
+  const alertContainer = document.createElement('div');
+  alertContainer.classList.add('alert-message');
+  alertContainer.textContent = message;
+  mapBlock.append(alertContainer);
+}
+
+const isEsc = (evt, cb) => {
+  if (evt.key === ('Escape' || 'Esc')) {
+    cb();
+  }
+}
+
+export {getRandomInteger, getRandomDecimal, getRandomArrayElement, getRandomArray, showAlert, isEsc};
