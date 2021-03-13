@@ -2,11 +2,6 @@ import { sendData } from './api.js';
 import { mainMarker } from './map.js';
 import { showMessage } from './status-message.js';
 
-const messageClassName = {
-  success: 'success',
-  error: 'error',
-}
-
 const CITY_CENTER = {
   lat: 35.85000,
   lng: 139.75000,
