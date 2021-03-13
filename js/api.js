@@ -4,12 +4,12 @@ const getData = (onSuccess, onFail) => {
       if (response.ok) {
         return response.json();
       } else {
-        onFail();
+        onFail('Ошибка загрузки данных!');
       }
     })
     .then((ads) => onSuccess(ads))
     .catch(() => {
-      onFail();
+      onFail('Ошибка загрузки данных!');
     });
 };
 
@@ -18,10 +18,6 @@ const sendData = (onSuccess, onFail, body) => {
     'https://22.javascript.pages.academy/keksobooking',
     {
       method: 'POST',
-      // не работает, выдает ошибку:
-      // headers: {
-      //   'Content-Type': 'multipart/form-data',
-      // },
       body,
     },
   )
@@ -37,4 +33,4 @@ const sendData = (onSuccess, onFail, body) => {
     });
 };
 
-export {getData, sendData};
+export { getData, sendData };

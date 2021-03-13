@@ -1,6 +1,11 @@
-import {sendData} from './api.js';
-import {mainMarker} from './map.js';
-import {showMessage, error, success} from './status-message.js';
+import { sendData } from './api.js';
+import { mainMarker } from './map.js';
+import { showMessage } from './status-message.js';
+
+const messageClassName = {
+  success: 'success',
+  error: 'error',
+}
 
 const CITY_CENTER = {
   lat: 35.85000,
@@ -58,20 +63,23 @@ resetButton.addEventListener('click', (evt) => {
 });
 
 // отправка заполненных данных формы на сервер
-const setUserFormSubmit = () => {
-  adForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    sendData(
-      () => {
-        showMessage(success);
-        resetForm(adForm);
-        resetForm(mapFilter);
-      },
-      () => showMessage(error),
-      new FormData(evt.target),
-    );
-  });
-}
-setUserFormSubmit();
 
-export {CITY_CENTER, initPage, address};
+const onSuccessUpload = () => {
+  showMessage('success');
+  resetForm(adForm);
+  resetForm(mapFilter);
+}
+
+const onErrorUpload = () => {
+  showMessage('error');
+}
+
+const onFormSubmit = (evt) => {
+  evt.preventDefault();
+  const formData = new FormData(evt.target);
+  sendData(onSuccessUpload, onErrorUpload, formData);
+}
+
+adForm.addEventListener('submit', onFormSubmit);
+
+export { CITY_CENTER, initPage, address };

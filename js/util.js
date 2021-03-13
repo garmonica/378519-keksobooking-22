@@ -32,8 +32,8 @@ const showAlert = (message) => {
 }
 
 const isEsc = (evt, cb) => {
-  if (evt.key === 'Escape' || evt.key === 'Esc') {
-    cb;
+  if (evt.key === ('Escape' || 'Esc')) {
+    cb();
   }
 }
 
