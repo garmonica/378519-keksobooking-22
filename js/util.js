@@ -37,4 +37,4 @@ const isEsc = (evt, cb) => {
   }
 }
 
-export {getRandomInteger, getRandomDecimal, getRandomArrayElement, getRandomArray, showAlert, isEsc};
+export { getRandomInteger, getRandomDecimal, getRandomArrayElement, getRandomArray, showAlert, isEsc };

@@ -1,6 +1,5 @@
 import { isEsc } from './util.js';
 
-
 const main = document.querySelector('main');
 
 const getMessageElement = (elemType) => {
