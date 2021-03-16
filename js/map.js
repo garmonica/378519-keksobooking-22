@@ -4,6 +4,8 @@ import { getData } from './api.js';
 import { CITY_CENTER, initPage, address } from './user-form.js';
 import { showAlert } from './util.js';
 
+const SIMILAR_ADS_COUNT = 10;
+
 const map = L.map('map-canvas')
   .on('load', () => {
     initPage();
@@ -49,26 +51,27 @@ mainMarker.on('moveend', (evt) => {
 });
 
 const renderMarkers = (ads) => {
-  ads.forEach((point) => {
-    const { location } = point;
-    const marker = L.marker(
-      {
-        lat: location.lat,
-        lng: location.lng,
-      },
-      {
-        icon: markerIcon,
-      },
-    );
-    marker
-      .addTo(map)
-      .bindPopup(
-        getAdTemplate(point),
+  ads.slice(0, SIMILAR_ADS_COUNT)
+    .forEach((point) => {
+      const { location } = point;
+      const marker = L.marker(
         {
-          keepInView: true,
+          lat: location.lat,
+          lng: location.lng,
+        },
+        {
+          icon: markerIcon,
         },
       );
-  });
+      marker
+        .addTo(map)
+        .bindPopup(
+          getAdTemplate(point),
+          {
+            keepInView: true,
+          },
+        );
+    });
 }
 
 getData(renderMarkers, showAlert);
