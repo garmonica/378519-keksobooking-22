@@ -1,7 +1,7 @@
 import { sendData } from './api.js';
 import { mainMarker } from './map.js';
 import { showMessage } from './status-message.js';
-// import { capacityReset } from './form-validation.js';
+import { capacityReset } from './form-validation.js';
 
 const CITY_CENTER = {
   lat: 35.85000,
@@ -41,8 +41,7 @@ const initPage = () => {
   removeDisabledAttr(mapFilterChildren);
   address.value = `${CITY_CENTER.lat.toFixed(5)}, ${CITY_CENTER.lng.toFixed(5)}`;
   address.setAttribute('readonly', 'readonly');
-  // apartmentPrice.placeholder = 1000;
-  // capacityReset();
+  capacityReset();
 }
 
 // сброс формы
@@ -50,7 +49,7 @@ const resetForm = (form) => {
   mainMarker.setLatLng([CITY_CENTER.lat, CITY_CENTER.lng]);
   form.reset();
   address.value = `${CITY_CENTER.lat.toFixed(5)}, ${CITY_CENTER.lng.toFixed(5)}`;
-  // capacityReset();
+  capacityReset();
 }
 
 // очистка формы и фильтра по нажатию на "очистить"
@@ -62,7 +61,6 @@ resetButton.addEventListener('click', (evt) => {
 });
 
 // отправка заполненных данных формы на сервер
-
 const onSuccessUpload = () => {
   showMessage('success');
   resetForm(adForm);
