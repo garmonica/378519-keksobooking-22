@@ -5,13 +5,6 @@ const apartmentToPrice = {
   palace: 10000,
 }
 
-const roomNumberToCapacity = {
-  '1': [2],
-  '2': [1, 2],
-  '3': [0, 1, 2],
-  '100': [3],
-}
-
 const apartmentType = document.querySelector('#type');
 const apartmentPrice = document.querySelector('#price');
 const timeIn = document.querySelector('#timein');
@@ -35,6 +28,13 @@ const onTimeOutChange = function () {
 timeIn.addEventListener('change', onTimeInChange);
 
 timeOut.addEventListener('change', onTimeOutChange);
+
+const roomNumberToCapacity = {
+  '1': [2],
+  '2': [1, 2],
+  '3': [0, 1, 2],
+  '100': [3],
+}
 
 const roomNumber = document.querySelector('#room_number');
 const capacity = document.querySelector('#capacity');
