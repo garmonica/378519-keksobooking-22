@@ -1,138 +1,75 @@
-// const renderMarkers = (ads) => {
-//   // функция создания меток на карте --- marker.addTo(map)
-//   // и добавление соответствующих объявлений в балуны --- .bindPopup(getAdTemplate(point)):
-//   const createMarkers = (arr) => {
-//     arr.forEach((point) => {
-//       const { location } = point;
-//       marker(
-//         {
-//           lat: location.lat,
-//           lng: location.lng,
-//         },
-//         {
-//           icon: markerIcon,
-//         })
-//         .addTo(map)
-//         .bindPopup(
-//           getAdTemplate(point),
-//           {
-//             keepInView: true,
-//           },
-//         );
-//     });
-//   }
-//   // функция создания всех 10-ти меток:
-//   const renderAllAds = (arr) => {
-//     const slicedAds = arr.slice(0, SIMILAR_ADS_COUNT);
-//     createMarkers(slicedAds);
-//   }
-//   // сразу при загрузке данных рендерим все 10 меток:
-//   renderAllAds(ads);
-//   // удаление всех меток:
-//   const resetMarkers = () => {
-//     // тут надо, наверное, как-то оптимизировать, почитать документацию leaflet... не разобралась
-//     // функция удаляет все слои, в том числе и изображения карты и главную метку!!!
-//     // поэтому две последние строчки - заново добавление изображения карты и главной метки...хз
-//     // вопрос - возможно ли интересно удалять ТОЛЬКО обычные метки
-//     map.eachLayer(function (layer) {
-//       map.removeLayer(layer);
-//     });
-//     mapLayer.addTo(map);
-//     mainMarker.addTo(map);
-//   }
+const filters = document.querySelector('.map__filters');
 
+const houseTypeFilter = filters.querySelector('#housing-type');
+const priceFilter = filters.querySelector('#housing-price');
+const roomsFilter = filters.querySelector('#housing-rooms');
+const guestsFilter = filters.querySelector('#housing-guests');
 
+const checkBoxWiFi = filters.querySelector('#filter-wifi');
+const checkBoxDishwasher = filters.querySelector('#filter-dishwasher');
+const checkBoxParking = filters.querySelector('#filter-parking');
+const checkBoxWasher = filters.querySelector('#filter-washer');
+const checkBoxElevator = filters.querySelector('#filter-elevator');
+const checkBoxConditioner = filters.querySelector('#filter-conditioner');
 
-//   // фильтрация ТИПА:
-//   const onChangeType = () => {
-//     resetMarkers();
-//     if (housingType.value !== 'any') {
-//       const filteredAds = ads.slice(0, SIMILAR_ADS_COUNT)
-//         .filter((elem) => elem.offer.type === housingType.value);
-//       createMarkers(filteredAds);
-//       console.log(`Выбранный тип жилья - ${housingType.value}`);
-//     }
-//     if (housingType.value === 'any') {
-//       renderAllAds(ads);
-//       console.log('Выбран любой тип жилья');
-//     }
-//   }
-//   housingType.addEventListener('change', onChangeType);
+const filterByHouseType = (elem) => {
+  let isHouseType = elem.offer.type === houseTypeFilter.value;
+  return houseTypeFilter.value === 'any' ? true : isHouseType;
+}
 
-//   // фильтрация ЦЕНЫ:
-//   const onChangePrice = () => {
-//     resetMarkers();
-//     if (housingPrice.value === 'middle') {
-//       const filteredAds = ads.slice(0, SIMILAR_ADS_COUNT)
-//         .filter((elem) => elem.offer.price >= 10000 && elem.offer.price <= 50000);
-//       createMarkers(filteredAds);
-//       console.log(`Выбранная цена - ${housingPrice.value}`);
-//     }
-//     if (housingPrice.value === 'low') {
-//       const filteredAds = ads.slice(0, SIMILAR_ADS_COUNT)
-//         .filter((elem) => elem.offer.price < 10000);
-//       createMarkers(filteredAds);
-//       console.log(`Выбранная цена - ${housingPrice.value}`);
-//     }
-//     if (housingPrice.value === 'high') {
-//       const filteredAds = ads.slice(0, SIMILAR_ADS_COUNT)
-//         .filter((elem) => elem.offer.price > 50000);
-//       createMarkers(filteredAds);
-//       console.log(`Выбранная цена - ${housingPrice.value}`);
-//     }
-//     if (housingPrice.value === 'any') {
-//       renderAllAds(ads);
-//       console.log('Выбрана любая цена');
-//     }
-//   }
-//   housingPrice.addEventListener('change', onChangePrice);
-//   // фильтрация КОМНАТ:
-//   const onChangeRooms = () => {
-//     resetMarkers();
-//     if (housingRooms.value !== 'any') {
-//       const filteredAds = ads.slice(0, SIMILAR_ADS_COUNT)
-//         .filter((elem) => elem.offer.rooms === parseInt(housingRooms.value));
-//       createMarkers(filteredAds);
-//       console.log(`Выбранное число комнат - ${housingRooms.value}`);
-//     }
-//     if (housingRooms.value === 'any') {
-//       renderAllAds(ads);
-//       console.log('Выбрано любое число комнат');
-//     }
-//   }
-//   housingRooms.addEventListener('change', onChangeRooms);
+const PRICE = {
+  MIN: 10000,
+  MAX: 50000,
+}
 
-//   // фильтрация ГОСТЕЙ:
-//   const onChangeGuests = () => {
-//     resetMarkers();
-//     if (housingGuests.value !== 'any') {
-//       const filteredAds = ads.slice(0, SIMILAR_ADS_COUNT)
-//         .filter((elem) => elem.offer.rooms === parseInt(housingGuests.value));
-//       createMarkers(filteredAds);
-//       console.log(`Выбранное число гостей - ${housingGuests.value}`);
-//     }
-//     if (housingGuests.value === 'any') {
-//       renderAllAds(ads);
-//       console.log('Выбрано любое число гостей');
-//     }
-//   }
-//   housingGuests.addEventListener('change', onChangeGuests);
+const filterToPrice = {
+  'any': (price) => price,
+  'low': (price) => price <= PRICE.MIN,
+  'high': (price) => price >= PRICE.MAX,
+  'middle': (price) => price >= PRICE.MIN && price <= PRICE.MAX,
+}
 
+const filterByPrice = (elem) => {
+  let price = elem.offer.price;
+  return filterToPrice[priceFilter.value](price);
+}
 
-//   // фильтрация УДОБСТВ: ============================================================================
-//   // ЭТО ПОКА ЧТО ХЗ КАК ДЕЛАТЬ.....((((
+const filterByRooms = (elem) => {
+  let isRoom = elem.offer.rooms === parseInt(roomsFilter.value, 10);
+  return roomsFilter.value === 'any' ? true : isRoom;
+}
 
-//   // const onChangeFeatures = () => {
-//   //   resetMarkers();
-//   //   if (featuresInputs.checked) {
-//   //     const filteredAds = ads.slice(0, SIMILAR_ADS_COUNT)
-//   //       .filter((elem) => elem.offer.features === featuresInputs.value);
-//   //     createMarkers(filteredAds);
-//   //     console.log(`Выбранно - ${featuresInputs.value}`);
-//   //   }
-//   // }
-//   // housingFeatures.addEventListener('change', onChangeFeatures);
+const filterByGuests = (elem) => {
+  let isGuests = elem.offer.guests === parseInt(guestsFilter.value, 10);
+  return guestsFilter.value === 'any' ? true : isGuests;
+}
 
+const filterByFeatures = (elem) => {
+  let isWiFi = elem.offer.features.indexOf('wifi') !== -1;
+  let isDishwasher = elem.offer.features.indexOf('dishwasher') !== -1;
+  let isParking = elem.offer.features.indexOf('parking') !== -1;
+  let isWasher = elem.offer.features.indexOf('washer') !== -1;
+  let isElevator = elem.offer.features.indexOf('elevator') !== -1;
+  let isConditioner = elem.offer.features.indexOf('conditioner') !== -1;
 
+  let result = true;
 
-// };
+  result = result && (checkBoxWiFi.checked ? isWiFi : true);
+  result = result && (checkBoxDishwasher.checked ? isDishwasher : true);
+  result = result && (checkBoxParking.checked ? isParking : true);
+  result = result && (checkBoxWasher.checked ? isWasher : true);
+  result = result && (checkBoxElevator.checked ? isElevator : true);
+  result = result && (checkBoxConditioner.checked ? isConditioner : true);
+
+  return result;
+}
+
+const filteredPins = (data) => data.filter((elem) => {
+  return filterByHouseType(elem) &&
+    filterByPrice(elem) &&
+    filterByRooms(elem) &&
+    filterByGuests(elem) &&
+    filterByFeatures(elem)
+});
+
+export { filters, filteredPins };
