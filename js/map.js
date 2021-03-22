@@ -1,4 +1,5 @@
 /* global L:readonly */
+/* global _:readonly */
 import { Ad } from './ad.js';
 import { getData } from './api.js';
 import { CITY_CENTER, initPage, address } from './user-form.js';
@@ -6,6 +7,7 @@ import { showAlert } from './util.js';
 import { filters, filteredPins } from './filter.js';
 
 const SIMILAR_ADS_COUNT = 10;
+const RERENDER_DELAY = 500;
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -103,7 +105,9 @@ const renderAds = (ads) => {
 
     let filteredData = filteredPins(ads);
     filteredData = filteredData.slice(0, SIMILAR_ADS_COUNT);
-    createMarkers(filteredData);
+
+    const debounceRender = _.debounce(() => createMarkers(filteredData), RERENDER_DELAY);
+    debounceRender();
   }
 
   filters.addEventListener('change', onFiltersChange);
