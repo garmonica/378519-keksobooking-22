@@ -1,7 +1,7 @@
 import { sendData } from './api.js';
 import { mainMarker } from './map.js';
 import { showMessage } from './status-message.js';
-import { capacityReset } from './form-validation.js';
+import { resetCapacity } from './form-validation.js';
 
 const CITY_CENTER = {
   lat: 35.85000,
@@ -41,7 +41,7 @@ const initPage = () => {
   removeDisabledAttr(mapFilterChildren);
   address.value = `${CITY_CENTER.lat.toFixed(5)}, ${CITY_CENTER.lng.toFixed(5)}`;
   address.setAttribute('readonly', 'readonly');
-  capacityReset();
+  resetCapacity();
 }
 
 // сброс формы
@@ -49,12 +49,12 @@ const resetForm = (form) => {
   mainMarker.setLatLng([CITY_CENTER.lat, CITY_CENTER.lng]);
   form.reset();
   address.value = `${CITY_CENTER.lat.toFixed(5)}, ${CITY_CENTER.lng.toFixed(5)}`;
-  capacityReset();
+  resetCapacity();
 }
 
 // очистка формы и фильтра по нажатию на "очистить"
-const resetButton = adForm.querySelector('.ad-form__reset');
-resetButton.addEventListener('click', (evt) => {
+const buttonReset = adForm.querySelector('.ad-form__reset');
+buttonReset.addEventListener('click', (evt) => {
   evt.preventDefault();
   resetForm(adForm);
   resetForm(mapFilter);
