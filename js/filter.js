@@ -1,3 +1,8 @@
+const PRICE = {
+  MIN: 10000,
+  MAX: 50000,
+}
+
 const filters = document.querySelector('.map__filters');
 
 const houseTypeFilter = filters.querySelector('#housing-type');
@@ -15,11 +20,6 @@ const checkBoxConditioner = filters.querySelector('#filter-conditioner');
 const filterByHouseType = (elem) => {
   let isHouseType = elem.offer.type === houseTypeFilter.value;
   return houseTypeFilter.value === 'any' ? true : isHouseType;
-}
-
-const PRICE = {
-  MIN: 10000,
-  MAX: 50000,
 }
 
 const filterToPrice = {

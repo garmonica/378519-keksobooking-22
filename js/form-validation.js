@@ -73,14 +73,13 @@ apartmentTitle.addEventListener('invalid', () => {
   }
 });
 
-// rangeUnderflow / rangeOverflow не работают
 apartmentPrice.addEventListener('invalid', () => {
   apartmentPrice.style.borderColor = 'red';
   apartmentPrice.style.borderWidth = '3px';
   if (apartmentPrice.validity.rangeUnderflow) {
-    apartmentPrice.setCustomValidity('Неверное значение');
+    apartmentPrice.setCustomValidity(`Минимальная цена ${apartmentPrice.getAttribute('min')} руб.`);
   } else if (apartmentPrice.validity.rangeOverflow) {
-    apartmentPrice.setCustomValidity('Неверное значение');
+    apartmentPrice.setCustomValidity(`Максимальная цена ${apartmentPrice.getAttribute('max')} руб.`);
   } else if (apartmentPrice.validity.valueMissing) {
     apartmentPrice.setCustomValidity('Обязательное для заполнения поле');
   } else {

@@ -18,7 +18,7 @@ const map = L.map('map-canvas')
     lng: CITY_CENTER.lng,
   }, 9);
 
-const mapLayer = L.tileLayer(
+L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -53,20 +53,26 @@ mainMarker.on('moveend', (evt) => {
   address.value = `${coordinates.lat.toFixed(5)}, ${coordinates.lng.toFixed(5)}`;
 });
 
-const marker = L.marker;
+let markers = [];
 
 const createMarkers = (arr) => {
-  arr.forEach((point) => {
+  resetMarkers();
+
+  arr.forEach((point, number) => {
     const { location } = point;
-    marker(
+
+    const marker = new L.marker(
       {
         lat: location.lat,
         lng: location.lng,
       },
       {
         icon: markerIcon,
-      })
-      .addTo(map)
+      });
+
+    markers.push(marker);
+
+    markers[number].addTo(map)
       .bindPopup(
         Ad(point),
         {
@@ -77,40 +83,31 @@ const createMarkers = (arr) => {
 }
 
 const resetMarkers = () => {
-  // удаляет все слои, в том числе и изображения карты и главную метку
-  // поэтому две последние строчки - заново добавление изображения карты и главной метки
-  // карта каждый раз перезагружается, вряд ли это хорошо
-  // непонятно, как удалять ТОЛЬКО обычные метки
-  map.eachLayer(function (layer) {
-    map.removeLayer(layer);
+  markers.forEach((marker) => {
+    map.removeLayer(marker)
   });
-  mapLayer.addTo(map);
-  mainMarker.addTo(map);
+  markers = [];
 }
 
-const renderAllAds = (arr) => {
+const renderAllMarkers = (arr) => {
   const slicedAds = arr.slice(0, SIMILAR_ADS_COUNT);
   createMarkers(slicedAds);
 }
 
 const renderAds = (ads) => {
-
-  ads.slice(0, SIMILAR_ADS_COUNT);
-  renderAllAds(ads);
+  renderAllMarkers(ads);
 
   // initPage();
 
   const onFiltersChange = () => {
-    resetMarkers();
-
     let filteredData = filteredPins(ads);
     filteredData = filteredData.slice(0, SIMILAR_ADS_COUNT);
 
-    const debounceRender = _.debounce(() => createMarkers(filteredData), RERENDER_DELAY);
-    debounceRender();
+    createMarkers(filteredData);
   }
 
-  filters.addEventListener('change', onFiltersChange);
+  const debouncedFilterChange = _.debounce(onFiltersChange, RERENDER_DELAY);
+  filters.addEventListener('change', debouncedFilterChange);
 }
 
 getData(renderAds, showAlert);
