@@ -68,8 +68,7 @@ apartmentTitle.addEventListener('invalid', () => {
     apartmentTitle.setCustomValidity('Обязательное для заполнения поле');
   } else {
     apartmentTitle.setCustomValidity('');
-    apartmentTitle.style.borderColor = '';
-    apartmentTitle.style.borderWidth = '';
+    apartmentTitle.style.border = 'none';
   }
 });
 
@@ -84,8 +83,7 @@ apartmentPrice.addEventListener('invalid', () => {
     apartmentPrice.setCustomValidity('Обязательное для заполнения поле');
   } else {
     apartmentPrice.setCustomValidity('');
-    apartmentPrice.style.borderColor = '';
-    apartmentPrice.style.borderWidth = '';
+    apartmentPrice.style.border = 'none';
   }
 });
 
