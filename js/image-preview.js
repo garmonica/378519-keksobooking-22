@@ -33,6 +33,7 @@ const onPhotoPreviewChange = () => {
   const photoPreview = document.createElement('img');
   photoPreview.style.width = '100%';
   photoPreview.style.height = '100%';
+  photoPreview.alt = 'Фотография жилья';
   photoBlock.appendChild(photoPreview);
   makeFileReader(photoChooser, photoPreview);
 }
