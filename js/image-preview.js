@@ -5,10 +5,6 @@ const avatarPreview = document.querySelector('.ad-form-header__preview img');
 
 const photoChooser = document.querySelector('#images');
 const photoBlock = document.querySelector('.ad-form__photo');
-const photoPreview = document.createElement('img');
-photoPreview.style.width = '100%';
-photoPreview.style.height = '100%';
-photoBlock.appendChild(photoPreview);
 
 const makeFileReader = (chooser, preview) => {
   const file = chooser.files[0];
@@ -33,5 +29,19 @@ const makeFileReader = (chooser, preview) => {
 const onAvatarPreviewChange = () => makeFileReader(avatarChooser, avatarPreview);
 avatarChooser.addEventListener('change', onAvatarPreviewChange);
 
-const onPhotoPreviewChange = () => makeFileReader(photoChooser, photoPreview);
+const onPhotoPreviewChange = () => {
+  const photoPreview = document.createElement('img');
+  photoPreview.style.width = '100%';
+  photoPreview.style.height = '100%';
+  photoBlock.appendChild(photoPreview);
+  makeFileReader(photoChooser, photoPreview);
+}
+
 photoChooser.addEventListener('change', onPhotoPreviewChange);
+
+const resetPreviews = () => {
+  photoBlock.innerHTML = '';
+  avatarPreview.src = '../img/muffin-grey.svg';
+}
+
+export { resetPreviews };
