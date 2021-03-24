@@ -2,6 +2,7 @@ import { sendData } from './api.js';
 import { mainMarker } from './map.js';
 import { showMessage } from './status-message.js';
 import { resetCapacity } from './form-validation.js';
+import { resetPreviews } from './image-preview.js';
 
 const CITY_CENTER = {
   lat: 35.85000,
@@ -58,6 +59,7 @@ buttonReset.addEventListener('click', (evt) => {
   evt.preventDefault();
   resetForm(adForm);
   resetForm(mapFilter);
+  resetPreviews();
 });
 
 // отправка заполненных данных формы на сервер
@@ -65,6 +67,7 @@ const onSuccessUpload = () => {
   showMessage('success');
   resetForm(adForm);
   resetForm(mapFilter);
+  resetPreviews();
 }
 
 const onErrorUpload = () => {
