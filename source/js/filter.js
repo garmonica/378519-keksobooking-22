@@ -64,7 +64,7 @@ const filterByFeatures = (elem) => {
   return result;
 }
 
-const filteredPins = (data) => data.filter((elem) => {
+const getFilteredPins = (data) => data.filter((elem) => {
   return filterByHouseType(elem) &&
     filterByPrice(elem) &&
     filterByRooms(elem) &&
@@ -72,4 +72,4 @@ const filteredPins = (data) => data.filter((elem) => {
     filterByFeatures(elem)
 });
 
-export { filters, filteredPins };
+export { filters, getFilteredPins };
