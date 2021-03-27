@@ -1,6 +1,6 @@
 /* global L:readonly */
 /* global _:readonly */
-import { Ad } from './ad.js';
+import { renderAdItem } from './ad.js';
 import { getData } from './api.js';
 import { CITY_CENTER, initAdForm, initMapFilter, address } from './user-form.js';
 import { showAlert } from './util.js';
@@ -74,7 +74,7 @@ const createMarkers = (arr) => {
 
     markers[number].addTo(map)
       .bindPopup(
-        Ad(point),
+        renderAdItem(point),
         {
           keepInView: true,
         },
@@ -90,21 +90,19 @@ const resetMarkers = () => {
 }
 
 const renderAllMarkers = (arr) => {
+
   const slicedAds = arr.slice(0, SIMILAR_ADS_COUNT);
   createMarkers(slicedAds);
 }
 
 const renderAds = (ads) => {
-  initMapFilter();
-
   renderAllMarkers(ads);
 
-  // initPage();
+  initMapFilter();
 
   const onFiltersChange = () => {
     let filteredData = filteredPins(ads);
     filteredData = filteredData.slice(0, SIMILAR_ADS_COUNT);
-
     createMarkers(filteredData);
   }
 

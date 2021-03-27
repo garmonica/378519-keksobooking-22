@@ -27,20 +27,14 @@ const removeDisabledAttr = (arr) => {
   }
 }
 
-const blockAdForm = () => {
+const blockPage = () => {
   adForm.classList.add('ad-form--disabled');
   setDisabledAttr(adFormFieldsets);
-}
-
-const blockMapFilter = () => {
   mapFilter.classList.add('.map__filters--disabled');
   setDisabledAttr(mapFilterChildren);
 }
 
-blockAdForm();
-blockMapFilter();
-
-// resetPage();
+blockPage();
 
 const initMapFilter = () => {
   mapFilter.classList.remove('.map__filters--disabled');
@@ -70,8 +64,6 @@ buttonReset.addEventListener('click', (evt) => {
   resetForm(adForm);
   resetForm(mapFilter);
   resetPreviews();
-
-  // сброс фильтра
   getData(renderAds);
 });
 
@@ -80,8 +72,6 @@ const onSuccessUpload = () => {
   resetForm(adForm);
   resetForm(mapFilter);
   resetPreviews();
-
-  // сброс фильтра
   getData(renderAds);
 }
 

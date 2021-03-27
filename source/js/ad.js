@@ -13,7 +13,7 @@ const removeBlock = (block) => {
 
 const adTemplate = document.querySelector('#card').content.querySelector('.popup');
 
-const Ad = ({ author, offer }) => {
+const renderAdItem = ({ author, offer }) => {
   const adItem = adTemplate.cloneNode(true);
   const featuresBlock = adItem.querySelector('.popup__features');
   const photosBlock = adItem.querySelector('.popup__photos');
@@ -36,4 +36,4 @@ const Ad = ({ author, offer }) => {
   return adItem;
 }
 
-export { Ad };
+export { renderAdItem };

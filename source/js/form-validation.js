@@ -12,6 +12,7 @@ const roomNumberToCapacity = {
   '100': [3],
 }
 
+const apartmentTitle = document.querySelector('#title');
 const type = document.querySelector('#type');
 const apartmentPrice = document.querySelector('#price');
 const timeIn = document.querySelector('#timein');
@@ -58,16 +59,7 @@ const onCapacityChange = () => {
 roomNumber.addEventListener('click', onRoomNumberClick);
 capacity.addEventListener('change', onCapacityChange);
 
-// ВАЛИДАЦИЯ ДЛЯ ПОЛЕЙ ТЗ 2.4, доделать
-const apartmentTitle = document.querySelector('#title');
-
-const resetFieldsStyle = () => {
-  apartmentTitle.style.border = 'none';
-  apartmentPrice.style.border = 'none';
-  capacity.style.border = 'none';
-}
-
-apartmentTitle.addEventListener('invalid', () => {
+apartmentTitle.addEventListener('input', () => {
   apartmentTitle.style.border = '3px solid red';
   if (apartmentTitle.validity.tooShort) {
     apartmentTitle.setCustomValidity('Заголовок объявления должен состоять минимум из 30 символов');
@@ -81,7 +73,7 @@ apartmentTitle.addEventListener('invalid', () => {
   }
 });
 
-apartmentPrice.addEventListener('invalid', () => {
+apartmentPrice.addEventListener('input', () => {
   apartmentPrice.style.border = '3px solid red';
   if (apartmentPrice.validity.rangeUnderflow) {
     apartmentPrice.setCustomValidity(`Минимальная цена ${apartmentPrice.getAttribute('min')} руб.`);
@@ -94,5 +86,11 @@ apartmentPrice.addEventListener('invalid', () => {
     apartmentPrice.style.border = 'none';
   }
 });
+
+const resetFieldsStyle = () => {
+  apartmentTitle.style.border = 'none';
+  apartmentPrice.style.border = 'none';
+  capacity.style.border = 'none';
+}
 
 export { resetCapacity, resetFieldsStyle };
