@@ -4,10 +4,22 @@ import { renderAdItem } from './ad.js';
 import { getData } from './api.js';
 import { CITY_CENTER, initAdForm, initMapFilter, address } from './user-form.js';
 import { showAlert } from './util.js';
-import { filters, filteredPins } from './filter.js';
+import { filters, getFilteredPins } from './filter.js';
 
 const SIMILAR_ADS_COUNT = 10;
 const RERENDER_DELAY = 500;
+
+const MAP_SCALE = 9;
+
+const MAIN_MARKER_ICON_WIDTH = 52;
+const MAIN_MARKER_ICON_HEIGHT = 52;
+const MAIN_MARKER_ICON_ANCHOR_X = 26;
+const MAIN_MARKER_ICON_ANCHOR_Y = 52;
+
+const MARKER_ICON_WIDTH = 40;
+const MARKER_ICON_HEIGHT = 40;
+const MARKER_ICON_ANCHOR_X = 20;
+const MARKER_ICON_ANCHOR_Y = 40;
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -16,7 +28,7 @@ const map = L.map('map-canvas')
   .setView({
     lat: CITY_CENTER.lat,
     lng: CITY_CENTER.lng,
-  }, 9);
+  }, MAP_SCALE);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -27,14 +39,14 @@ L.tileLayer(
 
 const mainMarkerIcon = L.icon({
   iconUrl: './img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconSize: [MAIN_MARKER_ICON_WIDTH, MAIN_MARKER_ICON_HEIGHT],
+  iconAnchor: [MAIN_MARKER_ICON_ANCHOR_X, MAIN_MARKER_ICON_ANCHOR_Y],
 });
 
 const markerIcon = L.icon({
   iconUrl: './img/pin.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconSize: [MARKER_ICON_WIDTH, MARKER_ICON_HEIGHT],
+  iconAnchor: [MARKER_ICON_ANCHOR_X, MARKER_ICON_ANCHOR_Y],
 });
 
 const mainMarker = L.marker(
@@ -101,7 +113,7 @@ const renderAds = (ads) => {
   initMapFilter();
 
   const onFiltersChange = () => {
-    let filteredData = filteredPins(ads);
+    let filteredData = getFilteredPins(ads);
     filteredData = filteredData.slice(0, SIMILAR_ADS_COUNT);
     createMarkers(filteredData);
   }
