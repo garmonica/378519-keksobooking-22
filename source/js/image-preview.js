@@ -42,7 +42,7 @@ photoChooser.addEventListener('change', onPhotoPreviewChange);
 
 const resetPreviews = () => {
   photoBlock.innerHTML = '';
-  avatarPreview.src = 'img/muffin-grey.svg';
+  avatarPreview.src = './img/muffin-grey.svg';
 }
 
 export { resetPreviews };

@@ -2,7 +2,7 @@
 /* global _:readonly */
 import { Ad } from './ad.js';
 import { getData } from './api.js';
-import { CITY_CENTER, initPage, address } from './user-form.js';
+import { CITY_CENTER, initAdForm, initMapFilter, address } from './user-form.js';
 import { showAlert } from './util.js';
 import { filters, filteredPins } from './filter.js';
 
@@ -11,7 +11,7 @@ const RERENDER_DELAY = 500;
 
 const map = L.map('map-canvas')
   .on('load', () => {
-    initPage();
+    initAdForm();
   })
   .setView({
     lat: CITY_CENTER.lat,
@@ -26,13 +26,13 @@ L.tileLayer(
 ).addTo(map);
 
 const mainMarkerIcon = L.icon({
-  iconUrl: 'img/main-pin.svg',
+  iconUrl: './img/main-pin.svg',
   iconSize: [52, 52],
   iconAnchor: [26, 52],
 });
 
 const markerIcon = L.icon({
-  iconUrl: 'img/pin.svg',
+  iconUrl: './img/pin.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });
@@ -95,6 +95,8 @@ const renderAllMarkers = (arr) => {
 }
 
 const renderAds = (ads) => {
+  initMapFilter();
+
   renderAllMarkers(ads);
 
   // initPage();
@@ -112,4 +114,4 @@ const renderAds = (ads) => {
 
 getData(renderAds, showAlert);
 
-export { mainMarker };
+export { mainMarker, resetMarkers, renderAds, createMarkers };
