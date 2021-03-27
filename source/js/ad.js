@@ -1,4 +1,4 @@
-const HousingType = {
+const housingType = {
   palace: 'Дворец',
   flat: 'Квартира',
   house: 'Дом',
@@ -13,7 +13,7 @@ const removeBlock = (block) => {
 
 const adTemplate = document.querySelector('#card').content.querySelector('.popup');
 
-const Ad = ({ author, offer }) => {
+const renderAdItem = ({ author, offer }) => {
   const adItem = adTemplate.cloneNode(true);
   const featuresBlock = adItem.querySelector('.popup__features');
   const photosBlock = adItem.querySelector('.popup__photos');
@@ -21,7 +21,7 @@ const Ad = ({ author, offer }) => {
   adItem.querySelector('.popup__title').textContent = offer.title;
   adItem.querySelector('.popup__text--address').textContent = offer.address;
   adItem.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
-  adItem.querySelector('.popup__type').textContent = HousingType[offer.type];
+  adItem.querySelector('.popup__type').textContent = housingType[offer.type];
   adItem.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
   adItem.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
   featuresBlock.innerHTML = offer.features
@@ -36,4 +36,4 @@ const Ad = ({ author, offer }) => {
   return adItem;
 }
 
-export { Ad };
+export { renderAdItem };

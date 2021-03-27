@@ -12,6 +12,7 @@ const roomNumberToCapacity = {
   '100': [3],
 }
 
+const apartmentTitle = document.querySelector('#title');
 const type = document.querySelector('#type');
 const apartmentPrice = document.querySelector('#price');
 const timeIn = document.querySelector('#timein');
@@ -45,21 +46,21 @@ const resetCapacity = () => {
 const onRoomNumberClick = () => {
   resetCapacity();
   capacity.selectedIndex = -1;
-  capacity.setCustomValidity('Нужно выбрать комнату');
+  capacity.setCustomValidity('Необходимо выбрать количество гостей');
+  capacity.style.border = '3px solid red';
   roomNumberToCapacity[roomNumber.value].forEach((selectedIndex) => capacity[selectedIndex].disabled = false);
 }
 
-const onCapacityChange = () => capacity.setCustomValidity('');
+const onCapacityChange = () => {
+  capacity.setCustomValidity('');
+  capacity.style.border = 'none';
+}
 
 roomNumber.addEventListener('click', onRoomNumberClick);
 capacity.addEventListener('change', onCapacityChange);
 
-// ВАЛИДАЦИЯ ДЛЯ ПОЛЕЙ ТЗ 2.4, доделать
-const apartmentTitle = document.querySelector('#title');
-
-apartmentTitle.addEventListener('invalid', () => {
-  apartmentTitle.style.borderColor = 'red';
-  apartmentTitle.style.borderWidth = '3px';
+apartmentTitle.addEventListener('input', () => {
+  apartmentTitle.style.border = '3px solid red';
   if (apartmentTitle.validity.tooShort) {
     apartmentTitle.setCustomValidity('Заголовок объявления должен состоять минимум из 30 символов');
   } else if (apartmentTitle.validity.tooLong) {
@@ -72,9 +73,8 @@ apartmentTitle.addEventListener('invalid', () => {
   }
 });
 
-apartmentPrice.addEventListener('invalid', () => {
-  apartmentPrice.style.borderColor = 'red';
-  apartmentPrice.style.borderWidth = '3px';
+apartmentPrice.addEventListener('input', () => {
+  apartmentPrice.style.border = '3px solid red';
   if (apartmentPrice.validity.rangeUnderflow) {
     apartmentPrice.setCustomValidity(`Минимальная цена ${apartmentPrice.getAttribute('min')} руб.`);
   } else if (apartmentPrice.validity.rangeOverflow) {
@@ -87,4 +87,10 @@ apartmentPrice.addEventListener('invalid', () => {
   }
 });
 
-export { resetCapacity };
+const resetFieldsStyle = () => {
+  apartmentTitle.style.border = 'none';
+  apartmentPrice.style.border = 'none';
+  capacity.style.border = 'none';
+}
+
+export { resetCapacity, resetFieldsStyle };

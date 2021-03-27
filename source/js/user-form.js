@@ -1,7 +1,7 @@
-import { sendData } from './api.js';
-import { mainMarker } from './map.js';
+import { sendData, getData } from './api.js';
+import { mainMarker, renderAds } from './map.js';
 import { showMessage } from './status-message.js';
-import { resetCapacity } from './form-validation.js';
+import { resetCapacity, resetFieldsStyle } from './form-validation.js';
 import { resetPreviews } from './image-preview.js';
 
 const CITY_CENTER = {
@@ -27,47 +27,52 @@ const removeDisabledAttr = (arr) => {
   }
 }
 
-const resetPage = () => {
+const blockPage = () => {
   adForm.classList.add('ad-form--disabled');
-  mapFilter.classList.add('.map__filters--disabled');
   setDisabledAttr(adFormFieldsets);
+  mapFilter.classList.add('.map__filters--disabled');
   setDisabledAttr(mapFilterChildren);
 }
-resetPage();
 
-const initPage = () => {
-  adForm.classList.remove('ad-form--disabled');
+blockPage();
+
+const initMapFilter = () => {
   mapFilter.classList.remove('.map__filters--disabled');
-  removeDisabledAttr(adFormFieldsets);
   removeDisabledAttr(mapFilterChildren);
+}
+
+const initAdForm = () => {
+  adForm.classList.remove('ad-form--disabled');
+  removeDisabledAttr(adFormFieldsets);
   address.value = `${CITY_CENTER.lat.toFixed(5)}, ${CITY_CENTER.lng.toFixed(5)}`;
   address.setAttribute('readonly', 'readonly');
   resetCapacity();
 }
 
-// сброс формы
 const resetForm = (form) => {
   mainMarker.setLatLng([CITY_CENTER.lat, CITY_CENTER.lng]);
   form.reset();
   address.value = `${CITY_CENTER.lat.toFixed(5)}, ${CITY_CENTER.lng.toFixed(5)}`;
   resetCapacity();
+  resetFieldsStyle();
 }
 
-// очистка формы и фильтра по нажатию на "очистить"
 const buttonReset = adForm.querySelector('.ad-form__reset');
+
 buttonReset.addEventListener('click', (evt) => {
   evt.preventDefault();
   resetForm(adForm);
   resetForm(mapFilter);
   resetPreviews();
+  getData(renderAds);
 });
 
-// отправка заполненных данных формы на сервер
 const onSuccessUpload = () => {
   showMessage('success');
   resetForm(adForm);
   resetForm(mapFilter);
   resetPreviews();
+  getData(renderAds);
 }
 
 const onErrorUpload = () => {
@@ -82,4 +87,4 @@ const onFormSubmit = (evt) => {
 
 adForm.addEventListener('submit', onFormSubmit);
 
-export { CITY_CENTER, initPage, address };
+export { CITY_CENTER, initAdForm, initMapFilter, address };
