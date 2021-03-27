@@ -46,7 +46,7 @@ const resetCapacity = () => {
 const onRoomNumberClick = () => {
   resetCapacity();
   capacity.selectedIndex = -1;
-  capacity.setCustomValidity('Нужно выбрать комнату');
+  capacity.setCustomValidity('Необходимо выбрать количество гостей');
   capacity.style.border = '3px solid red';
   roomNumberToCapacity[roomNumber.value].forEach((selectedIndex) => capacity[selectedIndex].disabled = false);
 }
