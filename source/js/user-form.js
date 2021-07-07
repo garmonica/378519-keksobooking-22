@@ -6,7 +6,7 @@ import { resetPreviews } from './image-preview.js';
 
 const CITY_CENTER = {
   lat: 35.85000,
-  lng: 139.75000,
+  lng: 139.76000,
 };
 
 const adForm = document.querySelector('.ad-form');
