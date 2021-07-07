@@ -5,6 +5,7 @@ const avatarPreview = document.querySelector('.ad-form-header__preview img');
 
 const photoChooser = document.querySelector('#images');
 const photoBlock = document.querySelector('.ad-form__photo');
+photoBlock.style.overflow = 'hidden';
 
 const makeFileReader = (chooser, preview) => {
   const file = chooser.files[0];
@@ -30,6 +31,7 @@ const onAvatarPreviewChange = () => makeFileReader(avatarChooser, avatarPreview)
 avatarChooser.addEventListener('change', onAvatarPreviewChange);
 
 const onPhotoPreviewChange = () => {
+  photoBlock.innerHTML = '';
   const photoPreview = document.createElement('img');
   photoPreview.style.width = '100%';
   photoPreview.style.height = '100%';
